@@ -30,11 +30,12 @@ def on_publish(client, userdata, mid):
 
 
 def make_client():
-    m = mqtt.Client()
+    m = mqtt.Client(client_id=c['mqtt']['mqtt_client_id'])
     m.enable_logger(logger)
     # client.tls_set(tls_version=ssl.PROTOCOL_TLSv1)
-    m.tls_set()
-    m.username_pw_set(c['mqtt']['user'], c['mqtt']['secret'])
+    m.tls_set(certfile=c['mqtt']['mqtt_certfile'], keyfile=c['mqtt']['mqtt_keyfile'])
+    # mqtt_client_id: sensor_gateway
+    #m.username_pw_set(c['mqtt']['user'], c['mqtt']['secret'])
     m.on_connect = on_connect
     m.on_message = on_message
     m.on_disconnect = on_disconnect
